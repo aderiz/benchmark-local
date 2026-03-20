@@ -1,0 +1,611 @@
+# Curated 100-question MMLU subset, balanced across categories.
+# Categories: stem, humanities, social_science, other
+# Each question has: question, choices (A-D), answer (correct letter)
+
+# === STEM (25 questions) ===
+
+[[question]]
+category = "stem"
+question = "What is the SI unit of electric current?"
+choices = ["Volt", "Ampere", "Ohm", "Watt"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Which organelle is responsible for ATP production in eukaryotic cells?"
+choices = ["Nucleus", "Ribosome", "Mitochondria", "Golgi apparatus"]
+answer = "C"
+
+[[question]]
+category = "stem"
+question = "What is the derivative of sin(x)?"
+choices = ["-cos(x)", "cos(x)", "tan(x)", "-sin(x)"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Which element has the atomic number 6?"
+choices = ["Nitrogen", "Oxygen", "Carbon", "Boron"]
+answer = "C"
+
+[[question]]
+category = "stem"
+question = "What is the time complexity of binary search?"
+choices = ["O(n)", "O(n log n)", "O(log n)", "O(1)"]
+answer = "C"
+
+[[question]]
+category = "stem"
+question = "Newton's third law states that for every action there is:"
+choices = ["An equal reaction", "An equal and opposite reaction", "A proportional reaction", "No reaction"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is the pH of a neutral solution at 25°C?"
+choices = ["0", "7", "14", "1"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Which data structure uses FIFO ordering?"
+choices = ["Stack", "Queue", "Tree", "Graph"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is the integral of 1/x?"
+choices = ["x", "ln|x| + C", "1/x² + C", "e^x + C"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "DNA replication is described as semiconservative because:"
+choices = ["Both strands are new", "One strand is conserved and one is new", "The process conserves energy", "Half the bases are replaced"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is the speed of light in a vacuum (approximately)?"
+choices = ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10¹⁰ m/s", "3 × 10⁴ m/s"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Which sorting algorithm has the best average-case time complexity?"
+choices = ["Bubble sort O(n²)", "Merge sort O(n log n)", "Selection sort O(n²)", "Insertion sort O(n²)"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is the chemical formula for table salt?"
+choices = ["NaOH", "NaCl", "KCl", "CaCO₃"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "In statistics, what does a p-value less than 0.05 typically indicate?"
+choices = ["The null hypothesis is true", "Statistical significance", "A large effect size", "Perfect correlation"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Which planet has the largest mass in our solar system?"
+choices = ["Saturn", "Jupiter", "Neptune", "Earth"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is the powerhouse of the cell?"
+choices = ["Nucleus", "Mitochondria", "Chloroplast", "Endoplasmic reticulum"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What type of bond involves the sharing of electrons?"
+choices = ["Ionic bond", "Covalent bond", "Metallic bond", "Hydrogen bond"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is the value of π (pi) to two decimal places?"
+choices = ["3.12", "3.14", "3.16", "3.18"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Which layer of the Earth is liquid?"
+choices = ["Inner core", "Outer core", "Mantle", "Crust"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "In object-oriented programming, what is encapsulation?"
+choices = ["Inheriting from a parent class", "Bundling data and methods that operate on that data", "Creating multiple instances", "Overriding methods"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is the Heisenberg uncertainty principle about?"
+choices = ["Energy conservation", "Position and momentum cannot both be precisely known", "Wave-particle duality", "Quantum entanglement"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Which gas makes up approximately 78% of Earth's atmosphere?"
+choices = ["Oxygen", "Nitrogen", "Carbon dioxide", "Argon"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is the Big O notation for accessing an element in a hash table (average case)?"
+choices = ["O(n)", "O(1)", "O(log n)", "O(n²)"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "What is Ohm's Law?"
+choices = ["F = ma", "V = IR", "E = mc²", "PV = nRT"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Which type of RNA carries amino acids to the ribosome?"
+choices = ["mRNA", "tRNA", "rRNA", "snRNA"]
+answer = "B"
+
+# === HUMANITIES (25 questions) ===
+
+[[question]]
+category = "humanities"
+question = "Who wrote 'Romeo and Juliet'?"
+choices = ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "The Renaissance began in which country?"
+choices = ["France", "Italy", "England", "Spain"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Which philosophical tradition emphasizes the examination of life through reason and logic?"
+choices = ["Empiricism", "Rationalism", "Existentialism", "Pragmatism"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "The Magna Carta was signed in which year?"
+choices = ["1066", "1215", "1492", "1776"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Who painted the Mona Lisa?"
+choices = ["Michelangelo", "Leonardo da Vinci", "Raphael", "Donatello"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Which ancient civilization built the Parthenon?"
+choices = ["Romans", "Greeks", "Egyptians", "Persians"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Immanuel Kant is associated with which philosophical work?"
+choices = ["The Republic", "Critique of Pure Reason", "Meditations", "Leviathan"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "The French Revolution began in which year?"
+choices = ["1776", "1789", "1804", "1815"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Who wrote 'The Divine Comedy'?"
+choices = ["Virgil", "Dante Alighieri", "Homer", "Ovid"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Which art movement is characterized by visible brushstrokes and emphasis on light?"
+choices = ["Cubism", "Impressionism", "Surrealism", "Baroque"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "The Rosetta Stone helped decode which writing system?"
+choices = ["Cuneiform", "Egyptian hieroglyphs", "Linear B", "Sanskrit"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Who is considered the father of Western philosophy?"
+choices = ["Aristotle", "Socrates", "Plato", "Thales"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Which literary device involves giving human qualities to non-human things?"
+choices = ["Metaphor", "Personification", "Simile", "Hyperbole"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "The Gutenberg printing press was invented in approximately which year?"
+choices = ["1250", "1440", "1550", "1650"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Who composed the Four Seasons?"
+choices = ["Bach", "Vivaldi", "Mozart", "Beethoven"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Which empire was ruled by Genghis Khan?"
+choices = ["Ottoman Empire", "Mongol Empire", "Roman Empire", "Persian Empire"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Jean-Paul Sartre is most associated with which philosophy?"
+choices = ["Utilitarianism", "Existentialism", "Stoicism", "Nihilism"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Who wrote '1984'?"
+choices = ["Aldous Huxley", "George Orwell", "Ray Bradbury", "H.G. Wells"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "The Sistine Chapel ceiling was painted by:"
+choices = ["Leonardo da Vinci", "Michelangelo", "Raphael", "Caravaggio"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Which ancient wonder was located in Alexandria?"
+choices = ["Colossus of Rhodes", "Lighthouse of Alexandria", "Hanging Gardens", "Temple of Artemis"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "The term 'cogito ergo sum' is attributed to:"
+choices = ["John Locke", "René Descartes", "David Hume", "Baruch Spinoza"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Which period followed the Medieval era in European history?"
+choices = ["Antiquity", "Renaissance", "Enlightenment", "Industrial Age"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Who wrote 'Pride and Prejudice'?"
+choices = ["Charlotte Brontë", "Jane Austen", "Emily Brontë", "Mary Shelley"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "The Hagia Sophia is located in which city?"
+choices = ["Athens", "Istanbul", "Rome", "Cairo"]
+answer = "B"
+
+[[question]]
+category = "humanities"
+question = "Which musical period is Beethoven primarily associated with?"
+choices = ["Baroque", "Classical/Romantic transition", "Renaissance", "Modern"]
+answer = "B"
+
+# === SOCIAL SCIENCE (25 questions) ===
+
+[[question]]
+category = "social_science"
+question = "What does GDP stand for?"
+choices = ["General Domestic Product", "Gross Domestic Product", "Global Development Plan", "Gross Development Product"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Who is considered the founder of psychoanalysis?"
+choices = ["Carl Jung", "Sigmund Freud", "B.F. Skinner", "William James"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "The law of supply and demand states that when demand increases and supply remains unchanged:"
+choices = ["Price decreases", "Price increases", "Price stays the same", "Quantity decreases"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Maslow's hierarchy of needs places which need at the base?"
+choices = ["Safety", "Physiological", "Love/belonging", "Esteem"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Which type of government is characterized by rule by the people?"
+choices = ["Oligarchy", "Democracy", "Autocracy", "Theocracy"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "The Stanford prison experiment was conducted by:"
+choices = ["Stanley Milgram", "Philip Zimbardo", "Solomon Asch", "Albert Bandura"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "What is inflation?"
+choices = ["Decrease in money supply", "General increase in prices over time", "Increase in employment", "Decrease in GDP"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Which sociologist wrote 'The Protestant Ethic and the Spirit of Capitalism'?"
+choices = ["Karl Marx", "Max Weber", "Émile Durkheim", "Auguste Comte"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "The separation of powers doctrine divides government into how many branches?"
+choices = ["Two", "Three", "Four", "Five"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Classical conditioning was discovered by:"
+choices = ["B.F. Skinner", "Ivan Pavlov", "John Watson", "Edward Thorndike"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "What is a monopoly?"
+choices = ["Many sellers, many buyers", "A single seller dominates a market", "Many sellers, one buyer", "Government-controlled market"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Erik Erikson is known for his theory of:"
+choices = ["Cognitive development", "Psychosocial development", "Moral development", "Behavioral conditioning"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "The United Nations was established in which year?"
+choices = ["1919", "1945", "1950", "1960"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "What is the primary function of a central bank?"
+choices = ["Collecting taxes", "Managing monetary policy", "Regulating trade", "Setting fiscal policy"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Which theory suggests that deviance results from labeling by society?"
+choices = ["Strain theory", "Labeling theory", "Control theory", "Differential association"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "The concept of 'social contract' is most associated with:"
+choices = ["Adam Smith", "Thomas Hobbes, John Locke, and Rousseau", "Karl Marx", "Niccolò Machiavelli"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "What does the Gini coefficient measure?"
+choices = ["Economic growth", "Income inequality", "Unemployment rate", "Inflation rate"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Piaget's stages of cognitive development begin with which stage?"
+choices = ["Preoperational", "Sensorimotor", "Concrete operational", "Formal operational"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Which economic system is characterized by private ownership and free markets?"
+choices = ["Socialism", "Capitalism", "Communism", "Feudalism"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "The bystander effect was demonstrated by research following which event?"
+choices = ["Stanford prison experiment", "Kitty Genovese case", "Milgram experiment", "Asch conformity study"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "What is fiscal policy?"
+choices = ["Central bank interest rate decisions", "Government spending and taxation decisions", "International trade agreements", "Stock market regulation"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Which amendment to the US Constitution abolished slavery?"
+choices = ["12th", "13th", "14th", "15th"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Kohlberg's theory addresses which type of development?"
+choices = ["Physical", "Moral", "Cognitive", "Social"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "The World Trade Organization (WTO) primarily deals with:"
+choices = ["Military alliances", "International trade rules", "Environmental policy", "Human rights"]
+answer = "B"
+
+[[question]]
+category = "social_science"
+question = "Émile Durkheim studied suicide to demonstrate that:"
+choices = ["Suicide is purely individual", "Social factors influence suicide rates", "Suicide cannot be studied scientifically", "Religion prevents all suicide"]
+answer = "B"
+
+# === OTHER (25 questions) ===
+
+[[question]]
+category = "other"
+question = "What does HTTP stand for?"
+choices = ["HyperText Transfer Program", "HyperText Transfer Protocol", "High Transfer Text Protocol", "Hyper Transfer Text Program"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "Which blood type is considered the universal donor?"
+choices = ["A", "O negative", "AB", "B"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What is the recommended daily water intake for an average adult?"
+choices = ["1-2 cups", "About 8 cups (2 liters)", "5 liters", "500 ml"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "The Olympic Games are held every how many years?"
+choices = ["2", "4", "3", "5"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What is the most widely spoken language in the world by total speakers?"
+choices = ["Spanish", "English", "Mandarin Chinese", "Hindi"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "Which vitamin is primarily obtained from sunlight?"
+choices = ["Vitamin A", "Vitamin D", "Vitamin C", "Vitamin K"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What is the largest organ in the human body?"
+choices = ["Liver", "Skin", "Brain", "Lungs"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "JPEG is a standard for:"
+choices = ["Audio compression", "Image compression", "Video compression", "Text compression"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "Which continent has the most countries?"
+choices = ["Asia", "Africa", "Europe", "South America"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What is the main purpose of a firewall in computing?"
+choices = ["Speed up internet", "Network security and traffic filtering", "Store data", "Compress files"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "Normal human body temperature is approximately:"
+choices = ["35°C", "37°C", "39°C", "40°C"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "Which country has the largest population?"
+choices = ["United States", "India", "Indonesia", "Brazil"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What does USB stand for?"
+choices = ["United System Bus", "Universal Serial Bus", "Unified Serial Bridge", "Universal System Bridge"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "The Great Barrier Reef is located off the coast of:"
+choices = ["Brazil", "Australia", "Indonesia", "South Africa"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What is the most common blood type?"
+choices = ["A positive", "O positive", "B positive", "AB positive"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "Which ocean is the largest?"
+choices = ["Atlantic", "Pacific", "Indian", "Arctic"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What does RAM stand for in computing?"
+choices = ["Read Access Memory", "Random Access Memory", "Rapid Access Module", "Read and Modify"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "The human skeleton has approximately how many bones?"
+choices = ["150", "206", "250", "300"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What is the chemical symbol for gold?"
+choices = ["Gd", "Au", "Ag", "Go"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "Which country is both a continent and a country?"
+choices = ["New Zealand", "Australia", "Greenland", "Madagascar"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What is the tallest mountain in the world?"
+choices = ["K2", "Mount Everest", "Kangchenjunga", "Mount Kilimanjaro"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "TCP/IP is a:"
+choices = ["Programming language", "Network protocol suite", "Database system", "Operating system"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "How many teeth does a typical adult human have?"
+choices = ["28", "32", "36", "24"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "What is the longest river in the world?"
+choices = ["Amazon", "Nile", "Mississippi", "Yangtze"]
+answer = "B"
+
+[[question]]
+category = "other"
+question = "Which programming paradigm treats computation as the evaluation of mathematical functions?"
+choices = ["Object-oriented", "Functional", "Procedural", "Logic"]
+answer = "B"

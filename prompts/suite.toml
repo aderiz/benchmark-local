@@ -1,0 +1,36 @@
+[[prompt]]
+id = "short-qa"
+category = "short-qa"
+text = "What is the capital of France? Answer in one sentence."
+
+[[prompt]]
+id = "medium-explain"
+category = "medium-explain"
+text = "Explain how a transformer neural network processes a sequence of tokens, including the role of attention mechanisms. Be thorough but concise."
+
+[[prompt]]
+id = "long-essay"
+category = "long-essay"
+text = "Write a detailed essay on the history and future of renewable energy, covering solar, wind, and nuclear fusion. Discuss technological breakthroughs, economic factors, and environmental impact."
+
+[[prompt]]
+id = "code-gen"
+category = "code-gen"
+text = "Write a Python function that implements a binary search tree with insert, search, and in-order traversal methods. Include type hints and docstrings."
+
+[[prompt]]
+id = "reasoning"
+category = "reasoning"
+text = "A farmer has 17 sheep. All but 9 die. How many sheep does the farmer have left? Explain your reasoning step by step."
+
+[[prompt]]
+id = "vision-chart"
+category = "vision-chart"
+image = "prompts/images/chart.png"
+text = "Analyze this chart. What trends do you observe? What conclusions can be drawn from the data?"
+
+[[prompt]]
+id = "vision-photo"
+category = "vision-photo"
+image = "prompts/images/photo.jpg"
+text = "Describe this image in detail. What objects, people, or scenes are visible? What mood does it convey?"
