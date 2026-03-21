@@ -104,7 +104,16 @@ def _run_cli(config: BenchmarkConfig) -> None:
 
     session = run_benchmark(config, on_progress=on_progress)
 
-    # Print summary
+    # Print duration and summary
+    if session.duration_s > 0:
+        mins, secs = divmod(int(session.duration_s), 60)
+        hours, mins = divmod(mins, 60)
+        if hours > 0:
+            print(f"\nTotal benchmark duration: {hours}h {mins}m {secs}s")
+        elif mins > 0:
+            print(f"\nTotal benchmark duration: {mins}m {secs}s")
+        else:
+            print(f"\nTotal benchmark duration: {secs}s")
     _print_summary(session)
 
 

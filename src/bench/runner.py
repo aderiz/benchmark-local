@@ -5,6 +5,7 @@ from __future__ import annotations
 import gc
 import logging
 import random
+import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -84,6 +85,7 @@ def run_benchmark(
 
     all_variant_results: list[VariantResult] = []
     timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    bench_start = time.perf_counter()
 
     for family in config.model_families:
         # Filter prompts: text models skip vision prompts
@@ -139,12 +141,15 @@ def run_benchmark(
                         vr.quality = QualityResults()
                     vr.quality.output_similarity = similarities
 
+    bench_duration_s = time.perf_counter() - bench_start
+
     # Build session result
     session = _build_session(
         timestamp=timestamp,
         system_info=system_info,
         config=config,
         variant_results=all_variant_results,
+        duration_s=bench_duration_s,
     )
 
     # Save JSON
@@ -349,6 +354,7 @@ def _build_session(
     system_info: SystemInfo,
     config: BenchmarkConfig,
     variant_results: list[VariantResult],
+    duration_s: float = 0.0,
 ) -> SessionResult:
     """Build the final session result."""
     runs_data = []
@@ -394,6 +400,7 @@ def _build_session(
 
     return SessionResult(
         timestamp=timestamp,
+        duration_s=duration_s,
         system_info=asdict(system_info),
         config_snapshot=config_snapshot,
         runs=runs_data,

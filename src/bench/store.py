@@ -66,6 +66,7 @@ class SystemInfo:
 @dataclass
 class SessionResult:
     timestamp: str = ""
+    duration_s: float = 0.0
     system_info: dict[str, Any] = field(default_factory=dict)
     config_snapshot: dict[str, Any] = field(default_factory=dict)
     runs: list[dict[str, Any]] = field(default_factory=list)
@@ -99,6 +100,7 @@ def load_session(path: str | Path) -> SessionResult:
 
     return SessionResult(
         timestamp=data.get("timestamp", ""),
+        duration_s=data.get("duration_s", 0.0),
         system_info=data.get("system_info", {}),
         config_snapshot=data.get("config_snapshot", {}),
         runs=data.get("runs", []),

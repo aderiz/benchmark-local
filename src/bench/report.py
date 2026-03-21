@@ -76,6 +76,17 @@ def _build_html(session: SessionResult) -> str:
             ts_display = dt.strftime("%Y-%m-%d %H:%M:%S UTC")
         except ValueError:
             ts_display = ts
+        duration = session.duration_s
+        if duration > 0:
+            mins, secs = divmod(int(duration), 60)
+            hours, mins = divmod(mins, 60)
+            if hours > 0:
+                dur_str = f"{hours}h {mins}m {secs}s"
+            elif mins > 0:
+                dur_str = f"{mins}m {secs}s"
+            else:
+                dur_str = f"{secs}s"
+            ts_display += f" ({dur_str})"
         parts.append(f'<p class="timestamp">Run: {html.escape(ts_display)}</p>')
 
     # System info
