@@ -1,8 +1,9 @@
-"""Energy measurement via zeus-ml."""
+"""Energy measurement via zeus-ml's Apple Silicon IOKit interface."""
 
 from __future__ import annotations
 
 import logging
+import time
 from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
@@ -19,12 +20,17 @@ class PowerReading:
 class PowerMonitor:
     """Power measurement using zeus-ml's Apple Silicon support.
 
-    Uses IOKit APIs internally — no sudo required on macOS.
+    Uses the AppleSilicon SoC interface directly (bypassing ZeusMonitor)
+    because ZeusMonitor.end_window() doesn't aggregate SoC energy fields
+    into total_energy in zeus 0.15.0.
+
+    IOKit-based — no sudo required on macOS.
     """
 
     def __init__(self) -> None:
-        self._monitor = None
+        self._soc = None
         self._available = False
+        self._start_times: dict[str, float] = {}
         try:
             # Patch zeus 0.15.0 bug: DeprecatedAliasABCMeta registers
             # "zeroAllFields" as abstract but the concrete implementation
@@ -38,14 +44,15 @@ class PowerMonitor:
                     AppleSiliconMeasurement.__abstractmethods__ - {"zeroAllFields"}
                 )
 
-            from zeus.monitor.energy import ZeusMonitor
+            from zeus.device.soc.apple import AppleSilicon
 
-            self._monitor = ZeusMonitor(approx_instant_energy=True)
+            self._soc = AppleSilicon()
             self._available = True
-            logger.info("zeus-ml power monitoring initialized")
+            metrics = self._soc.get_available_metrics()
+            logger.info("Power monitoring initialized, metrics: %s", metrics)
         except Exception as e:
             logger.error(
-                "Failed to initialize zeus-ml power monitoring: %s. "
+                "Failed to initialize power monitoring: %s. "
                 "Power metrics will be unavailable. "
                 "Install with: uv add 'zeus[apple]'",
                 e,
@@ -60,7 +67,8 @@ class PowerMonitor:
         if not self._available:
             return
         try:
-            self._monitor.begin_window(name)
+            self._soc.begin_window(name)
+            self._start_times[name] = time.perf_counter()
         except Exception as e:
             logger.warning("Failed to begin power window '%s': %s", name, e)
 
@@ -69,19 +77,25 @@ class PowerMonitor:
         if not self._available:
             return None
         try:
-            measurement = self._monitor.end_window(name)
-            total_joules = measurement.total_energy
-            duration = measurement.time
+            duration = time.perf_counter() - self._start_times.pop(name, 0)
+            measurement = self._soc.end_window(name)
+
+            # Extract millijoule fields and convert to joules
+            cpu_mj = getattr(measurement, "cpu_total_mj", None) or 0
+            gpu_mj = getattr(measurement, "gpu_mj", None) or 0
+            dram_mj = getattr(measurement, "dram_mj", None) or 0
+            ane_mj = getattr(measurement, "ane_mj", None) or 0
+            total_mj = cpu_mj + gpu_mj + dram_mj + ane_mj
+            total_joules = total_mj / 1000.0
+
             avg_watts = total_joules / duration if duration > 0 else 0.0
 
-            # Extract per-component breakdown if available
             components: dict[str, float] = {}
-            if hasattr(measurement, "cpu_energy"):
-                cpu_j = measurement.cpu_energy or 0.0
-                components["cpu"] = cpu_j / duration if duration > 0 else 0.0
-            if hasattr(measurement, "gpu_energy"):
-                gpu_j = measurement.gpu_energy or 0.0
-                components["gpu"] = gpu_j / duration if duration > 0 else 0.0
+            if duration > 0:
+                components["cpu"] = (cpu_mj / 1000.0) / duration
+                components["gpu"] = (gpu_mj / 1000.0) / duration
+                components["dram"] = (dram_mj / 1000.0) / duration
+                components["ane"] = (ane_mj / 1000.0) / duration
 
             return PowerReading(
                 avg_watts=avg_watts,
