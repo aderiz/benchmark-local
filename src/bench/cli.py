@@ -76,7 +76,8 @@ def _run_cli(config: BenchmarkConfig) -> None:
                     f"  Warmup {event.run_index}/{event.total_runs} "
                     f"[{event.prompt_id}] "
                     f"TTFT={r.ttft_ms:.1f}ms "
-                    f"tok/s={r.tokens_per_sec:.1f}"
+                    f"prefill={r.prefill_tps:.1f}t/s "
+                    f"decode={r.decode_tps:.1f}t/s"
                 )
             else:
                 print(
@@ -89,7 +90,8 @@ def _run_cli(config: BenchmarkConfig) -> None:
                 f"  Run {event.run_index}/{event.total_runs} "
                 f"[{event.prompt_id}] "
                 f"TTFT={r.ttft_ms:.1f}ms "
-                f"tok/s={r.tokens_per_sec:.1f} "
+                f"prefill={r.prefill_tps:.1f}t/s "
+                f"decode={r.decode_tps:.1f}t/s "
                 f"mem={r.peak_memory_bytes / 1024**2:.0f}MB"
             )
         elif event.stage == "quality":
@@ -132,23 +134,25 @@ def _print_summary(session) -> None:
 
     # Header
     print(
-        f"{'Model':<45} {'TTFT(ms)':>10} {'tok/s':>8} {'tok/W':>8} "
+        f"{'Model':<40} {'TTFT(ms)':>9} {'Prefill':>9} {'Decode':>9} {'tok/W':>8} "
         f"{'Mem(MB)':>9} {'PPL':>8} {'MMLU%':>7}"
     )
-    print("-" * 100)
+    print("-" * 110)
 
     for key, metrics in agg.items():
         repo, quant = key.split("|", 1)
-        short_name = repo.split("/")[-1][:35]
+        short_name = repo.split("/")[-1][:30]
         label = f"{short_name} ({quant})"
 
         ttft = metrics.get("ttft_ms", {})
-        tps = metrics.get("tokens_per_sec", {})
+        prefill = metrics.get("prefill_tps", {})
+        decode = metrics.get("decode_tps", {})
         tpw = metrics.get("tokens_per_watt", {})
         mem = metrics.get("peak_memory_bytes", {})
 
         ttft_val = f"{ttft.get('median', 0):.1f}" if ttft else "—"
-        tps_val = f"{tps.get('median', 0):.1f}" if tps else "—"
+        prefill_val = f"{prefill.get('median', 0):.1f}" if prefill else "—"
+        decode_val = f"{decode.get('median', 0):.1f}" if decode else "—"
         tpw_val = f"{tpw.get('median', 0):.2f}" if tpw else "—"
         mem_val = f"{mem.get('median', 0) / 1024**2:.0f}" if mem else "—"
 
@@ -156,6 +160,6 @@ def _print_summary(session) -> None:
         ppl_val = f"{q['perplexity']:.2f}" if q.get("perplexity") else "—"
         mmlu_val = f"{q['mmlu_accuracy'] * 100:.1f}" if q.get("mmlu_accuracy") is not None else "—"
 
-        print(f"{label:<45} {ttft_val:>10} {tps_val:>8} {tpw_val:>8} {mem_val:>9} {ppl_val:>8} {mmlu_val:>7}")
+        print(f"{label:<40} {ttft_val:>9} {prefill_val:>9} {decode_val:>9} {tpw_val:>8} {mem_val:>9} {ppl_val:>8} {mmlu_val:>7}")
 
     print()

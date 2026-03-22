@@ -4,12 +4,27 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Iterator
+from dataclasses import dataclass
 from typing import Any
 
 from bench.config import ModelVariant
 from bench.prompts import Prompt
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class GenerationChunk:
+    """One step of generation output."""
+
+    text: str
+    # These are populated on every chunk for text models (from mlx_lm).
+    # For vision models, only the final chunk has meaningful values.
+    prompt_tokens: int = 0
+    prompt_tps: float = 0.0  # prefill tokens/sec
+    generation_tokens: int = 0
+    generation_tps: float = 0.0  # decode tokens/sec
+    peak_memory_gb: float = 0.0
 
 
 def load_model(variant: ModelVariant, kind: str) -> tuple[Any, Any]:
@@ -37,17 +52,16 @@ def generate_stream(
     prompt: Prompt,
     max_tokens: int,
     temperature: float = 0.0,
-) -> Iterator[str]:
+) -> Iterator[GenerationChunk]:
     """Unified streaming interface for text and vision models.
 
-    Yields one string chunk per generation step (typically one token).
+    Yields GenerationChunk per generation step with prefill/decode stats.
     """
     if kind == "vision" and prompt.is_vision:
         yield from _generate_vision(
             model, tokenizer_or_processor, prompt, max_tokens, temperature
         )
     elif kind == "vision" and not prompt.is_vision:
-        # Vision model on text-only prompt: use text generation path
         yield from _generate_vision_text_only(
             model, tokenizer_or_processor, prompt, max_tokens, temperature
         )
@@ -63,7 +77,7 @@ def _generate_text(
     prompt: Prompt,
     max_tokens: int,
     temperature: float,
-) -> Iterator[str]:
+) -> Iterator[GenerationChunk]:
     """Stream text generation using mlx_lm."""
     from mlx_lm import stream_generate
     from mlx_lm.generate import make_sampler
@@ -85,7 +99,14 @@ def _generate_text(
         max_tokens=max_tokens,
         sampler=sampler,
     ):
-        yield response.text
+        yield GenerationChunk(
+            text=response.text,
+            prompt_tokens=response.prompt_tokens,
+            prompt_tps=response.prompt_tps,
+            generation_tokens=response.generation_tokens,
+            generation_tps=response.generation_tps,
+            peak_memory_gb=response.peak_memory,
+        )
 
 
 def _generate_vision(
@@ -94,7 +115,7 @@ def _generate_vision(
     prompt: Prompt,
     max_tokens: int,
     temperature: float,
-) -> Iterator[str]:
+) -> Iterator[GenerationChunk]:
     """Stream vision model generation using mlx_vlm."""
     from mlx_vlm import generate as vlm_generate
     from mlx_vlm.utils import load_image
@@ -110,9 +131,8 @@ def _generate_vision(
         temp=temperature,
         verbose=False,
     )
-    # mlx_vlm.generate returns the full string; yield it as one chunk
-    # For token counting, we'll post-process with tokenizer
-    yield output
+    # mlx_vlm.generate returns the full string; yield as one chunk
+    yield GenerationChunk(text=output)
 
 
 def _generate_vision_text_only(
@@ -121,7 +141,7 @@ def _generate_vision_text_only(
     prompt: Prompt,
     max_tokens: int,
     temperature: float,
-) -> Iterator[str]:
+) -> Iterator[GenerationChunk]:
     """Vision model generating text-only prompt (no image)."""
     from mlx_vlm import generate as vlm_generate
 
@@ -133,4 +153,4 @@ def _generate_vision_text_only(
         temp=temperature,
         verbose=False,
     )
-    yield output
+    yield GenerationChunk(text=output)

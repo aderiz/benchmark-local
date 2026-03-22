@@ -112,12 +112,25 @@ def _build_html(session: SessionResult) -> str:
     # Summary table
     parts.append('<section>')
     parts.append("<h2>Summary</h2>")
+    parts.append('<p class="section-desc">Overall performance and quality for each model variant. '
+                 '<b>TTFT</b> is how long you wait before the first word appears. '
+                 '<b>Prefill</b> is how fast the model reads your prompt. '
+                 '<b>Decode</b> is how fast it writes the response — this is the speed you feel during streaming. '
+                 '<b>tok/W</b> shows energy efficiency — higher means more output per watt of power. '
+                 '<b>Perplexity</b> measures language understanding (lower = smarter). '
+                 '<b>MMLU</b> is accuracy on knowledge questions (higher = smarter).</p>')
     parts.append(_summary_table(agg, qual, pwr, variant_info))
     parts.append("</section>")
 
     # Per-family comparison
     parts.append('<section>')
     parts.append("<h2>Quantization Comparison by Family</h2>")
+    parts.append('<p class="section-desc">Compares quantization levels (8-bit vs 4-bit) of the same model. '
+                 'Quantization shrinks the model to use less memory and run faster, but at the cost of quality. '
+                 'The <b>reference</b> variant (usually 8-bit) is the quality baseline. '
+                 '<b>vs ref</b> shows the speed and memory tradeoff — e.g., "1.5x" means 50% faster. '
+                 '<b>PPL delta</b> shows quality loss — under 2% is negligible, over 5% is significant. '
+                 '<b>Output Similarity</b> measures how close the actual text output is to the reference (1.0 = identical).</p>')
     for fam_name, keys in family_variants.items():
         valid_keys = [k for k in keys if k in agg]
         if len(valid_keys) < 1:
@@ -131,6 +144,11 @@ def _build_html(session: SessionResult) -> str:
     # Per-prompt breakdown
     parts.append('<section>')
     parts.append("<h2>Per-Prompt Breakdown</h2>")
+    parts.append('<p class="section-desc">Performance broken down by prompt type. '
+                 'Short prompts (like "What is the capital of France?") test latency — how fast the model starts responding. '
+                 'Long prompts (like essay writing or code generation) test sustained throughput. '
+                 '<b>CV%</b> shows measurement consistency — if it\'s over 10%, something may have interfered (background processes, thermal throttling). '
+                 'The <b>95% CI</b> is the confidence interval for decode speed.</p>')
     parts.append(_prompt_table(prompt_data, variant_info))
     parts.append("</section>")
 
@@ -138,6 +156,11 @@ def _build_html(session: SessionResult) -> str:
     if pwr:
         parts.append('<section>')
         parts.append("<h2>Power</h2>")
+        parts.append('<p class="section-desc">Energy consumption during inference, measured via Apple Silicon power counters. '
+                     '<b>Avg W</b> is the total power draw during the benchmark window. '
+                     '<b>CPU/GPU</b> shows where the power is going — GPU dominates during inference, '
+                     'DRAM is significant for larger models that need more memory bandwidth. '
+                     'Lower watts for the same throughput means better efficiency and less battery drain.</p>')
         parts.append(_power_table(pwr, variant_info))
         parts.append("</section>")
 
@@ -172,6 +195,8 @@ def _info_card(label: str, value: str) -> str:
 
 # Column help text for tooltips
 _HELP = {
+    "Prefill": "Prompt processing speed in tokens/sec — how fast the model reads the input (higher is better). Scales with input length.",
+    "Decode": "Token generation speed in tokens/sec — how fast the model produces output (higher is better). This is the sustained throughput.",
     "Model": "HuggingFace repo or local model directory name",
     "Quant": "Quantization level — bf16/fp16 is full precision, 8bit and 4bit reduce memory at the cost of quality",
     "TTFT (ms)": "Time To First Token — latency from prompt submission to first generated token (lower is better)",
@@ -221,7 +246,8 @@ def _summary_table(
         quant = info.get("quant", key.split("|")[-1])
 
         ttft = _v(metrics.get("ttft_ms", {}), "median")
-        tps = _v(metrics.get("tokens_per_sec", {}), "median")
+        prefill = _v(metrics.get("prefill_tps", {}), "median")
+        decode = _v(metrics.get("decode_tps", {}), "median")
         tpw = _v(metrics.get("tokens_per_watt", {}), "median")
         mem = _v(metrics.get("peak_memory_bytes", {}), "median")
         mem_mb = mem / (1024 ** 2) if mem else None
@@ -233,17 +259,13 @@ def _summary_table(
         p = pwr.get(key, {})
         watts = p.get("avg_watts")
 
-        # No CV% flags in summary — variance across prompt types is expected.
-        # Per-prompt breakdown table shows CV% flags for like-for-like comparison.
-        tps_flag = ""
-        ttft_flag = ""
-
         rows.append(
             f"<tr>"
             f"<td>{html.escape(name)}</td>"
             f'<td class="quant-badge"><span class="badge badge-{quant}">{html.escape(quant)}</span></td>'
-            f'<td class="num">{_fmt(ttft, ".1f")}{ttft_flag}</td>'
-            f'<td class="num">{_fmt(tps, ".1f")}{tps_flag}</td>'
+            f'<td class="num">{_fmt(ttft, ".1f")}</td>'
+            f'<td class="num">{_fmt(prefill, ".1f")}</td>'
+            f'<td class="num">{_fmt(decode, ".1f")}</td>'
             f'<td class="num">{_fmt(tpw, ".2f")}</td>'
             f'<td class="num">{_fmt(mem_mb, ".0f")}</td>'
             f'<td class="num">{_fmt(watts, ".1f")}</td>'
@@ -257,7 +279,8 @@ def _summary_table(
         "<thead><tr>"
         f'{_th("Model")}{_th("Quant")}'
         f'{_th("TTFT (ms)", "num")}'
-        f'{_th("tok/s", "num")}'
+        f'{_th("Prefill", "num")}'
+        f'{_th("Decode", "num")}'
         f'{_th("tok/W", "num")}'
         f'{_th("Mem (MB)", "num")}'
         f'{_th("Watts", "num")}'
@@ -448,12 +471,14 @@ def _prompt_table(
     rows: list[str] = []
     for (repo, quant, prompt_id), runs in prompt_data.items():
         name = repo.split("/")[-1]
-        tps_values = [r["tokens_per_sec"] for r in runs]
         ttft_values = [r["ttft_ms"] for r in runs]
-        tps_agg = aggregate(tps_values)
+        prefill_values = [r.get("prefill_tps", 0) for r in runs if r.get("prefill_tps", 0) > 0]
+        decode_values = [r.get("decode_tps", 0) for r in runs if r.get("decode_tps", 0) > 0]
         ttft_agg = aggregate(ttft_values)
+        prefill_agg = aggregate(prefill_values) if prefill_values else None
+        decode_agg = aggregate(decode_values) if decode_values else None
 
-        cv_cls = "warn" if tps_agg.unreliable else ""
+        cv_cls = "warn" if decode_agg and decode_agg.unreliable else ""
 
         rows.append(
             f"<tr>"
@@ -461,10 +486,11 @@ def _prompt_table(
             f'<td><span class="badge badge-{quant}">{html.escape(quant)}</span></td>'
             f"<td>{html.escape(prompt_id)}</td>"
             f'<td class="num">{ttft_agg.median:.1f}</td>'
-            f'<td class="num">{tps_agg.median:.1f}</td>'
-            f'<td class="num">{tps_agg.ci_str}</td>'
-            f'<td class="num {cv_cls}">{tps_agg.cv_percent:.1f}%</td>'
-            f'<td class="num">{tps_agg.n}</td>'
+            f'<td class="num">{_fmt(prefill_agg.median if prefill_agg else None, ".1f")}</td>'
+            f'<td class="num">{_fmt(decode_agg.median if decode_agg else None, ".1f")}</td>'
+            f'<td class="num">{decode_agg.ci_str if decode_agg else "—"}</td>'
+            f'<td class="num {cv_cls}">{decode_agg.cv_percent:.1f}%' + (' !' if decode_agg and decode_agg.unreliable else '') + '</td>' if decode_agg else f'<td class="num">—</td>'
+            f'<td class="num">{len(runs)}</td>'
             f"</tr>"
         )
 
@@ -473,7 +499,8 @@ def _prompt_table(
         "<thead><tr>"
         f'{_th("Model")}{_th("Quant")}{_th("Prompt")}'
         f'{_th("TTFT (ms)", "num")}'
-        f'{_th("tok/s", "num")}'
+        f'{_th("Prefill", "num")}'
+        f'{_th("Decode", "num")}'
         f'{_th("95% CI", "num")}'
         f'{_th("CV%", "num")}'
         f'{_th("N", "num")}'
@@ -579,6 +606,8 @@ h3 {
 }
 section { margin-bottom: 1.5rem; }
 .timestamp { color: var(--text2); font-size: 0.85rem; margin: 0.25rem 0 1rem; }
+.section-desc { color: var(--text2); font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; max-width: 900px; }
+.section-desc b { color: var(--text); }
 
 /* Info grid */
 .info-grid {

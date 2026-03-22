@@ -340,14 +340,26 @@ def _run_variant(
         # Per-prompt medians
         prompt_ttft_medians = []
         prompt_tps_medians = []
+        prompt_prefill_medians = []
+        prompt_decode_medians = []
         for prompt_id, runs in by_prompt.items():
             prompt_ttft = aggregate([r.ttft_ms for r in runs])
             prompt_tps = aggregate([r.tokens_per_sec for r in runs])
+            prompt_prefill = aggregate([r.prefill_tps for r in runs if r.prefill_tps > 0])
+            prompt_decode = aggregate([r.decode_tps for r in runs if r.decode_tps > 0])
             prompt_ttft_medians.append(prompt_ttft.median)
             prompt_tps_medians.append(prompt_tps.median)
+            if prompt_prefill.n > 0:
+                prompt_prefill_medians.append(prompt_prefill.median)
+            if prompt_decode.n > 0:
+                prompt_decode_medians.append(prompt_decode.median)
 
         vr.aggregated["ttft_ms"] = aggregate(prompt_ttft_medians)
         vr.aggregated["tokens_per_sec"] = aggregate(prompt_tps_medians)
+        if prompt_prefill_medians:
+            vr.aggregated["prefill_tps"] = aggregate(prompt_prefill_medians)
+        if prompt_decode_medians:
+            vr.aggregated["decode_tps"] = aggregate(prompt_decode_medians)
         vr.aggregated["peak_memory_bytes"] = aggregate(
             [float(r.peak_memory_bytes) for r in measured_runs]
         )
