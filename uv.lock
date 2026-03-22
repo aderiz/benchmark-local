@@ -184,25 +184,6 @@ wheels = [
 ]
 
 [[package]]
-name = "benchmark-local"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "mlx-lm" },
-    { name = "mlx-vlm" },
-    { name = "textual" },
-    { name = "zeus", extra = ["apple"] },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "mlx-lm", specifier = ">=0.21" },
-    { name = "mlx-vlm", specifier = ">=0.1" },
-    { name = "textual", specifier = ">=1.0" },
-    { name = "zeus", extras = ["apple"] },
-]
-
-[[package]]
 name = "certifi"
 version = "2026.2.25"
 source = { registry = "https://pypi.org/simple" }
@@ -708,6 +689,38 @@ sdist = { url = "https://files.pythonhosted.org/packages/2e/c9/06ea13676ef354f0a
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b4/de/88b3be5c31b22333b3ca2f6ff1de4e863d8fe45aaea7485f591970ec1d3e/linkify_it_py-2.1.0-py3-none-any.whl", hash = "sha256:0d252c1594ecba2ecedc444053db5d3a9b7ec1b0dd929c8f1d74dce89f86c05e", size = 19878, upload-time = "2026-03-01T07:48:46.098Z" },
 ]
+
+[[package]]
+name = "macos-mlx-benchmark"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "mlx-lm" },
+    { name = "textual" },
+]
+
+[package.optional-dependencies]
+all = [
+    { name = "mlx-vlm" },
+    { name = "zeus", extra = ["apple"] },
+]
+power = [
+    { name = "zeus", extra = ["apple"] },
+]
+vision = [
+    { name = "mlx-vlm" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "mlx-lm", specifier = ">=0.21" },
+    { name = "mlx-vlm", marker = "extra == 'all'", specifier = ">=0.1" },
+    { name = "mlx-vlm", marker = "extra == 'vision'", specifier = ">=0.1" },
+    { name = "textual", specifier = ">=1.0" },
+    { name = "zeus", extras = ["apple"], marker = "extra == 'all'" },
+    { name = "zeus", extras = ["apple"], marker = "extra == 'power'" },
+]
+provides-extras = ["vision", "power", "all"]
 
 [[package]]
 name = "markdown-it-py"

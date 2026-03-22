@@ -7,8 +7,23 @@ Scientific benchmarking tool for measuring local LLM inference performance on Ap
 - **Apple Silicon Mac** (M1/M2/M3/M4)
 - **macOS** 13+
 - **Python** 3.11+
+- **uv** — fast Python package manager ([install guide](https://docs.astral.sh/uv/getting-started/installation/))
 
 ## Installation
+
+### 1. Install uv (if you don't have it)
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Or via Homebrew:
+
+```bash
+brew install uv
+```
+
+### 2. Clone and install
 
 ```bash
 git clone https://github.com/Incept5/MacOS-MLX-Benchmark.git
@@ -16,25 +31,60 @@ cd MacOS-MLX-Benchmark
 uv sync
 ```
 
-## Quick Start
+This installs the core dependencies (mlx-lm, textual). Models are downloaded automatically on first run.
+
+### 3. Optional extras
 
 ```bash
-# TUI mode — interactive model selection, live progress, results viewer
-uv run bench
+# Vision model support (mlx-vlm)
+uv sync --extra vision
 
-# CLI mode — logs to stdout, good for scripting or SSH sessions
+# Power measurement (tokens/watt via zeus-ml)
+uv sync --extra power
+
+# Everything
+uv sync --extra all
+```
+
+Power measurement uses Apple's IOKit APIs (no sudo required). If you skip this, the benchmark runs normally — power columns just show as empty.
+
+## Quick Start
+
+**First time? Start here** — this runs two small models (~2GB download) and takes about 5-10 minutes:
+
+```bash
+uv run bench --config configs/quick.toml --no-tui
+```
+
+This will:
+1. Download two small models (Qwen2.5 0.5B and Llama 3.2 3B) from HuggingFace
+2. Run warmup + measured iterations across 7 text prompts
+3. Evaluate perplexity and MMLU accuracy
+4. Save a JSON file and HTML report to `results/`
+
+Once that works, run the full benchmark:
+
+```bash
 uv run bench --no-tui
+```
 
-# Custom config
-uv run bench --config configs/my_config.toml
+Or use the interactive TUI:
 
-# Verbose logging
-uv run bench --no-tui -v
+```bash
+uv run bench
 ```
 
 ## Usage
 
-### TUI Mode (default)
+### CLI Mode
+
+```bash
+uv run bench --no-tui                              # Full benchmark, console output
+uv run bench --config configs/quick.toml --no-tui   # Quick benchmark
+uv run bench --no-tui -v                            # Verbose logging
+```
+
+### TUI Mode
 
 ```bash
 uv run bench
@@ -46,14 +96,6 @@ Opens a terminal UI with three screens:
 2. **Run** — live progress bar, streaming per-run metrics (TTFT, tok/s, memory), and a scrollable log
 3. **Results** — sortable tables (summary, by-family quantization comparison, per-prompt breakdown) with JSON export
 
-### CLI Mode
-
-```bash
-uv run bench --no-tui
-```
-
-Prints progress and a summary table to stdout. Useful for headless runs, piping output, or CI.
-
 ### Options
 
 | Flag | Description |
@@ -64,9 +106,15 @@ Prints progress and a summary table to stdout. Useful for headless runs, piping 
 
 ## Configuration
 
-Configs are TOML files in `configs/`. The default ships with a spread of popular models from 0.5B to 70B.
+Configs are TOML files in `configs/`. Three are provided:
 
-### Structure
+| Config | Description |
+|--------|-------------|
+| `configs/default.toml` | Full suite — 8 model families from 0.5B to 70B (HuggingFace repos, auto-downloaded) |
+| `configs/quick.toml` | Quick test — 2 small models, fewer runs, ~5-10 minutes |
+| `configs/local_example.toml` | Example using models already downloaded to a local directory |
+
+### Config Structure
 
 ```toml
 [benchmark]
@@ -90,39 +138,39 @@ variants = [
 reference = "bf16"        # quality baseline for this family
 ```
 
-### Using HuggingFace Repos
+### Using HuggingFace Models (auto-download)
 
-Set `repo` to any `mlx-community/` HuggingFace repo ID. The model is downloaded automatically on first run and cached by `huggingface_hub`.
+Set `repo` to any `mlx-community/` HuggingFace repo ID. The model downloads automatically on first run and is cached by `huggingface_hub` in `~/.cache/huggingface/`.
 
 ```toml
 { repo = "mlx-community/Mistral-7B-Instruct-v0.3-4bit", quant = "4bit" }
 ```
 
-### Using Local Models
+### Using Local Models (no download)
 
-Set `repo` to an absolute path containing the MLX model files (`config.json`, `*.safetensors`, `tokenizer.json`, etc.). No download occurs.
+If you already have MLX models on disk, point `repo` at the directory containing the model files (`config.json`, `*.safetensors`, `tokenizer.json`, etc.):
 
 ```toml
 { repo = "/Volumes/MODELS/AI/MLX/Qwen3.5-9B-MLX-8bit", quant = "8bit" }
 ```
 
-See `configs/local_example.toml` for a complete example using local paths.
+See `configs/local_example.toml` for a complete example.
 
 ### Creating Your Own Config
 
 ```bash
-cp configs/default.toml configs/my_bench.toml
-# edit to taste
-uv run bench --config configs/my_bench.toml
+cp configs/quick.toml configs/my_bench.toml
+# edit to add/remove models
+uv run bench --config configs/my_bench.toml --no-tui
 ```
 
 ### Tips
 
 - **Per-prompt max_tokens**: Each prompt in the suite can set its own `max_tokens` to reflect realistic output lengths (64 for short QA, 4096 for essays). The config-level `max_tokens` is the fallback default.
 - **Families with one variant** still get perplexity and MMLU but skip output similarity comparison.
-- **Vision models** (`kind = "vision"`) run all prompts including image-based ones; text models skip image prompts automatically.
+- **Vision models** (`kind = "vision"`) run all prompts including image-based ones; text models skip image prompts automatically. Requires `uv sync --extra vision`.
 - **Large models** that exceed available memory are caught gracefully — the runner logs the OOM and continues to the next variant.
-- The **`reference`** variant is the quality baseline. Results show metrics like "4-bit is 2.3x faster, uses 0.4x memory, with 3% perplexity increase vs 8-bit."
+- The **`reference`** variant is the quality baseline. Results show metrics like "4-bit is 1.6x faster, uses 0.5x memory, with 5% perplexity increase vs 8-bit."
 
 ## What It Measures
 
@@ -132,16 +180,16 @@ uv run bench --config configs/my_bench.toml
 |--------|-------------|--------|
 | **TTFT** | Time to first token (ms) | `time.perf_counter()` from prompt submit to first yielded token |
 | **Tokens/sec** | Generation throughput | `tokens_generated / generation_time` |
-| **Tokens/watt** | Energy efficiency | `tokens_per_sec / avg_combined_watts` via [zeus-ml](https://github.com/ml-energy/zeus) |
-| **Peak memory** | GPU memory high-water mark | `mx.metal.get_peak_memory()` |
+| **Tokens/watt** | Energy efficiency | `tokens_per_sec / avg_combined_watts` via [zeus-ml](https://github.com/ml-energy/zeus) (requires `--extra power`) |
+| **Peak memory** | GPU memory high-water mark | `mx.get_peak_memory()` |
 
 ### Quality
 
 | Metric | Description | Method |
 |--------|-------------|--------|
-| **Perplexity** | Intrinsic language model quality | Cross-entropy on bundled WikiText-2 sample (~5k tokens) |
-| **MMLU accuracy** | Knowledge question accuracy | 100-question multiple-choice subset across 4 categories |
-| **Output similarity** | Quantization drift | Token-level F1 between quantized and reference variant output |
+| **Perplexity** | Intrinsic language model quality | Cross-entropy on bundled WikiText-2 sample (~5k tokens). Lower is better. |
+| **MMLU accuracy** | Knowledge question accuracy | 100-question multiple-choice subset across 4 categories (STEM, humanities, social science, other) |
+| **Output similarity** | Quantization drift | Token-level F1 between quantized and reference variant output. 1.0 = identical. |
 
 ## Methodology
 
@@ -149,7 +197,7 @@ uv run bench --config configs/my_bench.toml
 - 10 measured runs by default
 - Temperature 0.0 for deterministic output
 - Variant order randomized within families to reduce thermal bias
-- 95% CI and CV% reported; CV% > 10% flagged as unreliable
+- 95% CI and CV% reported per-prompt; CV% > 10% flagged as unreliable
 - Full output text stored for reproducibility verification
 - System info, library versions, and config snapshot saved in every result file
 - Power measured per-variant (not per-run) to reduce noise
@@ -164,7 +212,7 @@ For reliable, reproducible results:
 4. **Let the machine cool down** — if you've been running heavy workloads, wait 5-10 minutes before starting. Thermal throttling skews results.
 5. **Don't touch the machine during the run** — even moving windows or typing causes CPU spikes.
 6. **Check Activity Monitor** before starting — CPU idle should be >95%, memory pressure should be green.
-7. **Run the same config twice** — compare results across runs. If metrics differ by more than 5%, something was interfering. The CV% column in the report flags measurements with >10% variance.
+7. **Run the same config twice** — compare results across runs. If metrics differ by more than 5%, something was interfering.
 8. **Close the terminal's other tabs/panes** — terminal emulators rendering output consume measurable CPU.
 
 The benchmark randomizes variant order within families to reduce thermal bias, but consistent ambient conditions still matter. If you're comparing results across machines, also ensure similar room temperature.
@@ -182,7 +230,9 @@ The default config (`configs/default.toml`) includes:
 | Llama 3.1 8B Instruct | 8B | bf16, 8bit, 4bit |
 | Qwen2.5 14B Instruct | 14B | bf16, 8bit, 4bit |
 | Llama 3.1 70B Instruct | 70B | 4bit |
-| Qwen2.5 VL 7B Instruct | 7B | 8bit, 4bit (vision) |
+| Qwen2.5 VL 7B Instruct | 7B | 8bit, 4bit (vision, requires `--extra vision`) |
+
+> **Note:** The full default config downloads many large models. Start with `configs/quick.toml` to verify your setup.
 
 ## Prompt Suite
 
@@ -209,7 +259,13 @@ Text models run the 7 text prompts. Vision models run all 14. All vision test im
 
 ## Power Measurement
 
-Power metrics (tokens/watt) use [zeus-ml](https://github.com/ml-energy/zeus) which reads Apple Silicon power counters via IOKit. No sudo required. If zeus cannot access power counters on your machine, the benchmark runs normally — power metrics are simply reported as unavailable.
+Power metrics (tokens/watt) require the optional `zeus-ml` dependency:
+
+```bash
+uv sync --extra power
+```
+
+This uses Apple Silicon power counters via IOKit — no sudo required. If not installed, the benchmark runs normally and power columns show as empty.
 
 ## Results
 
@@ -217,26 +273,34 @@ Each run produces a **JSON file** and a **self-contained HTML report** in `resul
 
 The HTML report includes:
 - System info dashboard (chip, memory, versions, benchmark parameters)
-- Sortable summary table (click column headers)
+- Sortable summary table (click column headers; hover for metric descriptions)
 - Per-family quantization comparison with delta percentages and bar charts
 - Per-prompt breakdown with 95% CI and CV% flags
 - Power breakdown table
 - Collapsible raw JSON
 
-The JSON file contains:
-- **Aggregated stats** — median, mean, std, 95% CI, CV% per metric
-- **Power** — watts and joules per variant
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `uv: command not found` | Install uv: `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+| `mlx` fails to import | Must be on Apple Silicon (M1+). Intel Macs are not supported. |
+| Model download is slow | Models download from HuggingFace. Use `configs/quick.toml` for smaller models, or pre-download with `huggingface-cli download mlx-community/MODEL-NAME`. |
+| `zeus` install fails | Power measurement is optional. Run `uv sync` without `--extra power`. |
+| Out of memory | Remove large models from your config, or use 4-bit quantizations. The runner catches OOMs and continues. |
+| Vision models fail | Install vision support: `uv sync --extra vision` |
 
 ## Project Structure
 
 ```
 MacOS-MLX-Benchmark/
   configs/
-    default.toml           # Default config (HuggingFace repos)
+    default.toml           # Full benchmark (HuggingFace repos, auto-download)
+    quick.toml             # Quick test (2 small models, ~5-10 min)
     local_example.toml     # Example using local model paths
   prompts/
-    suite.toml             # 7 prompts (5 text + 2 vision)
-    images/                # Sample images for vision prompts
+    suite.toml             # 14 prompts (7 text + 7 vision)
+    images/                # Test images for vision prompts
   evals/
     mmlu_subset.toml       # 100 MMLU questions
     wikitext_sample.txt    # WikiText-2 excerpt for perplexity
@@ -250,6 +314,7 @@ MacOS-MLX-Benchmark/
     models.py              # mlx_lm / mlx_vlm wrappers
     stats.py               # Statistical aggregation
     store.py               # JSON save/load
+    report.py              # HTML report generation
     prompts.py             # Prompt suite loader
     tui/                   # Textual TUI
   results/                 # Output (git-ignored)

@@ -18,7 +18,13 @@ def load_model(variant: ModelVariant, kind: str) -> tuple[Any, Any]:
     Returns (model, tokenizer) for text models or (model, processor) for vision models.
     """
     if kind == "vision":
-        from mlx_vlm import load
+        try:
+            from mlx_vlm import load
+        except ImportError:
+            raise ImportError(
+                "mlx-vlm is required for vision models. "
+                "Install with: uv pip install 'macos-mlx-benchmark[vision]'"
+            )
 
         model, processor = load(variant.repo)
         return model, processor

@@ -1,5 +1,5 @@
 [project]
-name = "benchmark-local"
+name = "macos-mlx-benchmark"
 version = "0.1.0"
 description = "MLX inference benchmarking tool for Apple Silicon"
 readme = "README.md"
@@ -7,10 +7,13 @@ license = "Apache-2.0"
 requires-python = ">=3.11"
 dependencies = [
     "mlx-lm>=0.21",
-    "mlx-vlm>=0.1",
     "textual>=1.0",
-    "zeus[apple]",
 ]
+
+[project.optional-dependencies]
+vision = ["mlx-vlm>=0.1"]
+power = ["zeus[apple]"]
+all = ["mlx-vlm>=0.1", "zeus[apple]"]
 
 [project.scripts]
 bench = "bench.cli:main"
