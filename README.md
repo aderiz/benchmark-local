@@ -1,4 +1,4 @@
-# benchmark-local
+# MacOS-MLX-Benchmark
 
 Scientific benchmarking tool for measuring local LLM inference performance on Apple Silicon. Measures both **performance** (TTFT, tokens/sec, tokens/watt) and **quality** (perplexity, accuracy, quantization loss) across models and quantization levels using MLX.
 
@@ -11,8 +11,8 @@ Scientific benchmarking tool for measuring local LLM inference performance on Ap
 ## Installation
 
 ```bash
-git clone https://github.com/your-org/benchmark-local.git
-cd benchmark-local
+git clone https://github.com/Incept5/MacOS-MLX-Benchmark.git
+cd MacOS-MLX-Benchmark
 uv sync
 ```
 
@@ -230,7 +230,7 @@ The JSON file contains:
 ## Project Structure
 
 ```
-benchmark-local/
+MacOS-MLX-Benchmark/
   configs/
     default.toml           # Default config (HuggingFace repos)
     local_example.toml     # Example using local model paths

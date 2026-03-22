@@ -326,11 +326,28 @@ def _run_variant(
             mmlu_total=mmlu_total,
         )
 
-    # Aggregate performance metrics
+    # Aggregate performance metrics per-prompt first, then combine.
+    # Aggregating across prompts directly inflates CV% because different
+    # prompts have different input lengths and output lengths.
     measured_runs = [r for r in vr.runs if not r.is_warmup]
     if measured_runs:
-        vr.aggregated["ttft_ms"] = aggregate([r.ttft_ms for r in measured_runs])
-        vr.aggregated["tokens_per_sec"] = aggregate([r.tokens_per_sec for r in measured_runs])
+        # Group by prompt
+        from collections import defaultdict
+        by_prompt: dict[str, list[RunResult]] = defaultdict(list)
+        for r in measured_runs:
+            by_prompt[r.prompt_id].append(r)
+
+        # Per-prompt medians
+        prompt_ttft_medians = []
+        prompt_tps_medians = []
+        for prompt_id, runs in by_prompt.items():
+            prompt_ttft = aggregate([r.ttft_ms for r in runs])
+            prompt_tps = aggregate([r.tokens_per_sec for r in runs])
+            prompt_ttft_medians.append(prompt_ttft.median)
+            prompt_tps_medians.append(prompt_tps.median)
+
+        vr.aggregated["ttft_ms"] = aggregate(prompt_ttft_medians)
+        vr.aggregated["tokens_per_sec"] = aggregate(prompt_tps_medians)
         vr.aggregated["peak_memory_bytes"] = aggregate(
             [float(r.peak_memory_bytes) for r in measured_runs]
         )

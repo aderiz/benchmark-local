@@ -1,122 +1,123 @@
 # Curated 100-question MMLU subset, balanced across categories.
 # Categories: stem, humanities, social_science, other
 # Each question has: question, choices (A-D), answer (correct letter)
+# Answer positions are randomized across A/B/C/D.
 
-# === STEM (25 questions) ===
+# === STEM ===
 
 [[question]]
 category = "stem"
 question = "What is the SI unit of electric current?"
-choices = ["Volt", "Ampere", "Ohm", "Watt"]
+choices = ["Ohm", "Ampere", "Watt", "Volt"]
 answer = "B"
 
 [[question]]
 category = "stem"
 question = "Which organelle is responsible for ATP production in eukaryotic cells?"
-choices = ["Nucleus", "Ribosome", "Mitochondria", "Golgi apparatus"]
-answer = "C"
+choices = ["Golgi apparatus", "Mitochondria", "Nucleus", "Ribosome"]
+answer = "B"
 
 [[question]]
 category = "stem"
 question = "What is the derivative of sin(x)?"
-choices = ["-cos(x)", "cos(x)", "tan(x)", "-sin(x)"]
-answer = "B"
+choices = ["cos(x)", "-sin(x)", "tan(x)", "-cos(x)"]
+answer = "A"
 
 [[question]]
 category = "stem"
 question = "Which element has the atomic number 6?"
-choices = ["Nitrogen", "Oxygen", "Carbon", "Boron"]
-answer = "C"
-
-[[question]]
-category = "stem"
-question = "What is the time complexity of binary search?"
-choices = ["O(n)", "O(n log n)", "O(log n)", "O(1)"]
-answer = "C"
-
-[[question]]
-category = "stem"
-question = "Newton's third law states that for every action there is:"
-choices = ["An equal reaction", "An equal and opposite reaction", "A proportional reaction", "No reaction"]
+choices = ["Oxygen", "Carbon", "Nitrogen", "Boron"]
 answer = "B"
 
 [[question]]
 category = "stem"
+question = "What is the time complexity of binary search?"
+choices = ["O(n log n)", "O(log n)", "O(1)", "O(n)"]
+answer = "B"
+
+[[question]]
+category = "stem"
+question = "Newton's third law states that for every action there is:"
+choices = ["An equal and opposite reaction", "No reaction", "A proportional reaction", "An equal reaction"]
+answer = "A"
+
+[[question]]
+category = "stem"
 question = "What is the pH of a neutral solution at 25°C?"
-choices = ["0", "7", "14", "1"]
+choices = ["14", "7", "0", "1"]
 answer = "B"
 
 [[question]]
 category = "stem"
 question = "Which data structure uses FIFO ordering?"
-choices = ["Stack", "Queue", "Tree", "Graph"]
-answer = "B"
+choices = ["Queue", "Graph", "Stack", "Tree"]
+answer = "A"
 
 [[question]]
 category = "stem"
 question = "What is the integral of 1/x?"
-choices = ["x", "ln|x| + C", "1/x² + C", "e^x + C"]
-answer = "B"
+choices = ["x", "1/x² + C", "ln|x| + C", "e^x + C"]
+answer = "C"
 
 [[question]]
 category = "stem"
 question = "DNA replication is described as semiconservative because:"
-choices = ["Both strands are new", "One strand is conserved and one is new", "The process conserves energy", "Half the bases are replaced"]
-answer = "B"
+choices = ["The process conserves energy", "Half the bases are replaced", "Both strands are new", "One strand is conserved and one is new"]
+answer = "D"
 
 [[question]]
 category = "stem"
 question = "What is the speed of light in a vacuum (approximately)?"
-choices = ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10¹⁰ m/s", "3 × 10⁴ m/s"]
+choices = ["3 × 10¹⁰ m/s", "3 × 10⁸ m/s", "3 × 10⁴ m/s", "3 × 10⁶ m/s"]
 answer = "B"
 
 [[question]]
 category = "stem"
 question = "Which sorting algorithm has the best average-case time complexity?"
-choices = ["Bubble sort O(n²)", "Merge sort O(n log n)", "Selection sort O(n²)", "Insertion sort O(n²)"]
-answer = "B"
+choices = ["Insertion sort O(n²)", "Selection sort O(n²)", "Merge sort O(n log n)", "Bubble sort O(n²)"]
+answer = "C"
 
 [[question]]
 category = "stem"
 question = "What is the chemical formula for table salt?"
-choices = ["NaOH", "NaCl", "KCl", "CaCO₃"]
+choices = ["CaCO₃", "NaCl", "NaOH", "KCl"]
 answer = "B"
 
 [[question]]
 category = "stem"
 question = "In statistics, what does a p-value less than 0.05 typically indicate?"
-choices = ["The null hypothesis is true", "Statistical significance", "A large effect size", "Perfect correlation"]
-answer = "B"
+choices = ["A large effect size", "Perfect correlation", "Statistical significance", "The null hypothesis is true"]
+answer = "C"
 
 [[question]]
 category = "stem"
 question = "Which planet has the largest mass in our solar system?"
-choices = ["Saturn", "Jupiter", "Neptune", "Earth"]
+choices = ["Saturn", "Jupiter", "Earth", "Neptune"]
 answer = "B"
 
 [[question]]
 category = "stem"
 question = "What is the powerhouse of the cell?"
-choices = ["Nucleus", "Mitochondria", "Chloroplast", "Endoplasmic reticulum"]
-answer = "B"
+choices = ["Endoplasmic reticulum", "Nucleus", "Chloroplast", "Mitochondria"]
+answer = "D"
 
 [[question]]
 category = "stem"
 question = "What type of bond involves the sharing of electrons?"
-choices = ["Ionic bond", "Covalent bond", "Metallic bond", "Hydrogen bond"]
-answer = "B"
+choices = ["Covalent bond", "Hydrogen bond", "Metallic bond", "Ionic bond"]
+answer = "A"
 
 [[question]]
 category = "stem"
 question = "What is the value of π (pi) to two decimal places?"
-choices = ["3.12", "3.14", "3.16", "3.18"]
-answer = "B"
+choices = ["3.14", "3.18", "3.12", "3.16"]
+answer = "A"
 
 [[question]]
 category = "stem"
 question = "Which layer of the Earth is liquid?"
-choices = ["Inner core", "Outer core", "Mantle", "Crust"]
-answer = "B"
+choices = ["Crust", "Mantle", "Outer core", "Inner core"]
+answer = "C"
 
 [[question]]
 category = "stem"
@@ -127,57 +128,57 @@ answer = "B"
 [[question]]
 category = "stem"
 question = "What is the Heisenberg uncertainty principle about?"
-choices = ["Energy conservation", "Position and momentum cannot both be precisely known", "Wave-particle duality", "Quantum entanglement"]
-answer = "B"
+choices = ["Energy conservation", "Wave-particle duality", "Quantum entanglement", "Position and momentum cannot both be precisely known"]
+answer = "D"
 
 [[question]]
 category = "stem"
 question = "Which gas makes up approximately 78% of Earth's atmosphere?"
-choices = ["Oxygen", "Nitrogen", "Carbon dioxide", "Argon"]
-answer = "B"
+choices = ["Oxygen", "Argon", "Carbon dioxide", "Nitrogen"]
+answer = "D"
 
 [[question]]
 category = "stem"
 question = "What is the Big O notation for accessing an element in a hash table (average case)?"
-choices = ["O(n)", "O(1)", "O(log n)", "O(n²)"]
-answer = "B"
+choices = ["O(1)", "O(n²)", "O(log n)", "O(n)"]
+answer = "A"
 
 [[question]]
 category = "stem"
 question = "What is Ohm's Law?"
-choices = ["F = ma", "V = IR", "E = mc²", "PV = nRT"]
-answer = "B"
+choices = ["E = mc²", "PV = nRT", "F = ma", "V = IR"]
+answer = "D"
 
 [[question]]
 category = "stem"
 question = "Which type of RNA carries amino acids to the ribosome?"
-choices = ["mRNA", "tRNA", "rRNA", "snRNA"]
-answer = "B"
+choices = ["rRNA", "mRNA", "tRNA", "snRNA"]
+answer = "C"
 
-# === HUMANITIES (25 questions) ===
+# === HUMANITIES ===
 
 [[question]]
 category = "humanities"
 question = "Who wrote 'Romeo and Juliet'?"
-choices = ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"]
-answer = "B"
+choices = ["William Shakespeare", "Mark Twain", "Charles Dickens", "Jane Austen"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "The Renaissance began in which country?"
-choices = ["France", "Italy", "England", "Spain"]
-answer = "B"
+choices = ["Spain", "England", "Italy", "France"]
+answer = "C"
 
 [[question]]
 category = "humanities"
 question = "Which philosophical tradition emphasizes the examination of life through reason and logic?"
-choices = ["Empiricism", "Rationalism", "Existentialism", "Pragmatism"]
-answer = "B"
+choices = ["Rationalism", "Pragmatism", "Empiricism", "Existentialism"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "The Magna Carta was signed in which year?"
-choices = ["1066", "1215", "1492", "1776"]
+choices = ["1776", "1215", "1066", "1492"]
 answer = "B"
 
 [[question]]
@@ -189,14 +190,14 @@ answer = "B"
 [[question]]
 category = "humanities"
 question = "Which ancient civilization built the Parthenon?"
-choices = ["Romans", "Greeks", "Egyptians", "Persians"]
-answer = "B"
+choices = ["Egyptians", "Romans", "Persians", "Greeks"]
+answer = "D"
 
 [[question]]
 category = "humanities"
 question = "Immanuel Kant is associated with which philosophical work?"
-choices = ["The Republic", "Critique of Pure Reason", "Meditations", "Leviathan"]
-answer = "B"
+choices = ["The Republic", "Leviathan", "Meditations", "Critique of Pure Reason"]
+answer = "D"
 
 [[question]]
 category = "humanities"
@@ -207,142 +208,142 @@ answer = "B"
 [[question]]
 category = "humanities"
 question = "Who wrote 'The Divine Comedy'?"
-choices = ["Virgil", "Dante Alighieri", "Homer", "Ovid"]
-answer = "B"
+choices = ["Dante Alighieri", "Ovid", "Virgil", "Homer"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "Which art movement is characterized by visible brushstrokes and emphasis on light?"
-choices = ["Cubism", "Impressionism", "Surrealism", "Baroque"]
-answer = "B"
+choices = ["Impressionism", "Surrealism", "Cubism", "Baroque"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "The Rosetta Stone helped decode which writing system?"
-choices = ["Cuneiform", "Egyptian hieroglyphs", "Linear B", "Sanskrit"]
-answer = "B"
+choices = ["Egyptian hieroglyphs", "Linear B", "Sanskrit", "Cuneiform"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "Who is considered the father of Western philosophy?"
-choices = ["Aristotle", "Socrates", "Plato", "Thales"]
-answer = "B"
+choices = ["Socrates", "Aristotle", "Plato", "Thales"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "Which literary device involves giving human qualities to non-human things?"
-choices = ["Metaphor", "Personification", "Simile", "Hyperbole"]
-answer = "B"
+choices = ["Metaphor", "Simile", "Personification", "Hyperbole"]
+answer = "C"
 
 [[question]]
 category = "humanities"
 question = "The Gutenberg printing press was invented in approximately which year?"
-choices = ["1250", "1440", "1550", "1650"]
-answer = "B"
+choices = ["1440", "1250", "1650", "1550"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "Who composed the Four Seasons?"
-choices = ["Bach", "Vivaldi", "Mozart", "Beethoven"]
+choices = ["Beethoven", "Vivaldi", "Mozart", "Bach"]
 answer = "B"
 
 [[question]]
 category = "humanities"
 question = "Which empire was ruled by Genghis Khan?"
-choices = ["Ottoman Empire", "Mongol Empire", "Roman Empire", "Persian Empire"]
+choices = ["Persian Empire", "Mongol Empire", "Ottoman Empire", "Roman Empire"]
 answer = "B"
 
 [[question]]
 category = "humanities"
 question = "Jean-Paul Sartre is most associated with which philosophy?"
-choices = ["Utilitarianism", "Existentialism", "Stoicism", "Nihilism"]
+choices = ["Stoicism", "Existentialism", "Utilitarianism", "Nihilism"]
 answer = "B"
 
 [[question]]
 category = "humanities"
 question = "Who wrote '1984'?"
-choices = ["Aldous Huxley", "George Orwell", "Ray Bradbury", "H.G. Wells"]
+choices = ["H.G. Wells", "George Orwell", "Ray Bradbury", "Aldous Huxley"]
 answer = "B"
 
 [[question]]
 category = "humanities"
 question = "The Sistine Chapel ceiling was painted by:"
-choices = ["Leonardo da Vinci", "Michelangelo", "Raphael", "Caravaggio"]
-answer = "B"
+choices = ["Caravaggio", "Leonardo da Vinci", "Raphael", "Michelangelo"]
+answer = "D"
 
 [[question]]
 category = "humanities"
 question = "Which ancient wonder was located in Alexandria?"
-choices = ["Colossus of Rhodes", "Lighthouse of Alexandria", "Hanging Gardens", "Temple of Artemis"]
-answer = "B"
+choices = ["Lighthouse of Alexandria", "Colossus of Rhodes", "Temple of Artemis", "Hanging Gardens"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "The term 'cogito ergo sum' is attributed to:"
-choices = ["John Locke", "René Descartes", "David Hume", "Baruch Spinoza"]
-answer = "B"
+choices = ["David Hume", "John Locke", "Baruch Spinoza", "René Descartes"]
+answer = "D"
 
 [[question]]
 category = "humanities"
 question = "Which period followed the Medieval era in European history?"
-choices = ["Antiquity", "Renaissance", "Enlightenment", "Industrial Age"]
+choices = ["Industrial Age", "Renaissance", "Enlightenment", "Antiquity"]
 answer = "B"
 
 [[question]]
 category = "humanities"
 question = "Who wrote 'Pride and Prejudice'?"
-choices = ["Charlotte Brontë", "Jane Austen", "Emily Brontë", "Mary Shelley"]
-answer = "B"
+choices = ["Jane Austen", "Emily Brontë", "Charlotte Brontë", "Mary Shelley"]
+answer = "A"
 
 [[question]]
 category = "humanities"
 question = "The Hagia Sophia is located in which city?"
-choices = ["Athens", "Istanbul", "Rome", "Cairo"]
-answer = "B"
+choices = ["Cairo", "Athens", "Istanbul", "Rome"]
+answer = "C"
 
 [[question]]
 category = "humanities"
 question = "Which musical period is Beethoven primarily associated with?"
-choices = ["Baroque", "Classical/Romantic transition", "Renaissance", "Modern"]
-answer = "B"
+choices = ["Classical/Romantic transition", "Renaissance", "Modern", "Baroque"]
+answer = "A"
 
-# === SOCIAL SCIENCE (25 questions) ===
+# === SOCIAL SCIENCE ===
 
 [[question]]
 category = "social_science"
 question = "What does GDP stand for?"
-choices = ["General Domestic Product", "Gross Domestic Product", "Global Development Plan", "Gross Development Product"]
+choices = ["Gross Development Product", "Gross Domestic Product", "Global Development Plan", "General Domestic Product"]
 answer = "B"
 
 [[question]]
 category = "social_science"
 question = "Who is considered the founder of psychoanalysis?"
-choices = ["Carl Jung", "Sigmund Freud", "B.F. Skinner", "William James"]
-answer = "B"
+choices = ["Sigmund Freud", "William James", "B.F. Skinner", "Carl Jung"]
+answer = "A"
 
 [[question]]
 category = "social_science"
 question = "The law of supply and demand states that when demand increases and supply remains unchanged:"
-choices = ["Price decreases", "Price increases", "Price stays the same", "Quantity decreases"]
-answer = "B"
+choices = ["Price decreases", "Quantity decreases", "Price stays the same", "Price increases"]
+answer = "D"
 
 [[question]]
 category = "social_science"
 question = "Maslow's hierarchy of needs places which need at the base?"
-choices = ["Safety", "Physiological", "Love/belonging", "Esteem"]
-answer = "B"
+choices = ["Safety", "Love/belonging", "Esteem", "Physiological"]
+answer = "D"
 
 [[question]]
 category = "social_science"
 question = "Which type of government is characterized by rule by the people?"
-choices = ["Oligarchy", "Democracy", "Autocracy", "Theocracy"]
-answer = "B"
+choices = ["Theocracy", "Oligarchy", "Autocracy", "Democracy"]
+answer = "D"
 
 [[question]]
 category = "social_science"
 question = "The Stanford prison experiment was conducted by:"
-choices = ["Stanley Milgram", "Philip Zimbardo", "Solomon Asch", "Albert Bandura"]
-answer = "B"
+choices = ["Stanley Milgram", "Albert Bandura", "Philip Zimbardo", "Solomon Asch"]
+answer = "C"
 
 [[question]]
 category = "social_science"
@@ -353,259 +354,259 @@ answer = "B"
 [[question]]
 category = "social_science"
 question = "Which sociologist wrote 'The Protestant Ethic and the Spirit of Capitalism'?"
-choices = ["Karl Marx", "Max Weber", "Émile Durkheim", "Auguste Comte"]
-answer = "B"
+choices = ["Max Weber", "Émile Durkheim", "Auguste Comte", "Karl Marx"]
+answer = "A"
 
 [[question]]
 category = "social_science"
 question = "The separation of powers doctrine divides government into how many branches?"
-choices = ["Two", "Three", "Four", "Five"]
-answer = "B"
+choices = ["Four", "Five", "Three", "Two"]
+answer = "C"
 
 [[question]]
 category = "social_science"
 question = "Classical conditioning was discovered by:"
-choices = ["B.F. Skinner", "Ivan Pavlov", "John Watson", "Edward Thorndike"]
-answer = "B"
+choices = ["Edward Thorndike", "B.F. Skinner", "John Watson", "Ivan Pavlov"]
+answer = "D"
 
 [[question]]
 category = "social_science"
 question = "What is a monopoly?"
-choices = ["Many sellers, many buyers", "A single seller dominates a market", "Many sellers, one buyer", "Government-controlled market"]
-answer = "B"
+choices = ["A single seller dominates a market", "Many sellers, one buyer", "Government-controlled market", "Many sellers, many buyers"]
+answer = "A"
 
 [[question]]
 category = "social_science"
 question = "Erik Erikson is known for his theory of:"
-choices = ["Cognitive development", "Psychosocial development", "Moral development", "Behavioral conditioning"]
-answer = "B"
+choices = ["Behavioral conditioning", "Moral development", "Cognitive development", "Psychosocial development"]
+answer = "D"
 
 [[question]]
 category = "social_science"
 question = "The United Nations was established in which year?"
-choices = ["1919", "1945", "1950", "1960"]
-answer = "B"
+choices = ["1945", "1960", "1919", "1950"]
+answer = "A"
 
 [[question]]
 category = "social_science"
 question = "What is the primary function of a central bank?"
-choices = ["Collecting taxes", "Managing monetary policy", "Regulating trade", "Setting fiscal policy"]
+choices = ["Collecting taxes", "Managing monetary policy", "Setting fiscal policy", "Regulating trade"]
 answer = "B"
 
 [[question]]
 category = "social_science"
 question = "Which theory suggests that deviance results from labeling by society?"
-choices = ["Strain theory", "Labeling theory", "Control theory", "Differential association"]
-answer = "B"
+choices = ["Differential association", "Strain theory", "Control theory", "Labeling theory"]
+answer = "D"
 
 [[question]]
 category = "social_science"
 question = "The concept of 'social contract' is most associated with:"
-choices = ["Adam Smith", "Thomas Hobbes, John Locke, and Rousseau", "Karl Marx", "Niccolò Machiavelli"]
+choices = ["Karl Marx", "Thomas Hobbes, John Locke, and Rousseau", "Adam Smith", "Niccolò Machiavelli"]
 answer = "B"
 
 [[question]]
 category = "social_science"
 question = "What does the Gini coefficient measure?"
-choices = ["Economic growth", "Income inequality", "Unemployment rate", "Inflation rate"]
-answer = "B"
+choices = ["Income inequality", "Unemployment rate", "Economic growth", "Inflation rate"]
+answer = "A"
 
 [[question]]
 category = "social_science"
 question = "Piaget's stages of cognitive development begin with which stage?"
-choices = ["Preoperational", "Sensorimotor", "Concrete operational", "Formal operational"]
+choices = ["Formal operational", "Sensorimotor", "Concrete operational", "Preoperational"]
 answer = "B"
 
 [[question]]
 category = "social_science"
 question = "Which economic system is characterized by private ownership and free markets?"
-choices = ["Socialism", "Capitalism", "Communism", "Feudalism"]
-answer = "B"
+choices = ["Socialism", "Feudalism", "Capitalism", "Communism"]
+answer = "C"
 
 [[question]]
 category = "social_science"
 question = "The bystander effect was demonstrated by research following which event?"
-choices = ["Stanford prison experiment", "Kitty Genovese case", "Milgram experiment", "Asch conformity study"]
-answer = "B"
+choices = ["Kitty Genovese case", "Stanford prison experiment", "Milgram experiment", "Asch conformity study"]
+answer = "A"
 
 [[question]]
 category = "social_science"
 question = "What is fiscal policy?"
-choices = ["Central bank interest rate decisions", "Government spending and taxation decisions", "International trade agreements", "Stock market regulation"]
+choices = ["International trade agreements", "Government spending and taxation decisions", "Stock market regulation", "Central bank interest rate decisions"]
 answer = "B"
 
 [[question]]
 category = "social_science"
 question = "Which amendment to the US Constitution abolished slavery?"
-choices = ["12th", "13th", "14th", "15th"]
-answer = "B"
+choices = ["13th", "15th", "12th", "14th"]
+answer = "A"
 
 [[question]]
 category = "social_science"
 question = "Kohlberg's theory addresses which type of development?"
-choices = ["Physical", "Moral", "Cognitive", "Social"]
-answer = "B"
+choices = ["Cognitive", "Social", "Physical", "Moral"]
+answer = "D"
 
 [[question]]
 category = "social_science"
 question = "The World Trade Organization (WTO) primarily deals with:"
-choices = ["Military alliances", "International trade rules", "Environmental policy", "Human rights"]
-answer = "B"
+choices = ["Environmental policy", "Military alliances", "Human rights", "International trade rules"]
+answer = "D"
 
 [[question]]
 category = "social_science"
 question = "Émile Durkheim studied suicide to demonstrate that:"
-choices = ["Suicide is purely individual", "Social factors influence suicide rates", "Suicide cannot be studied scientifically", "Religion prevents all suicide"]
-answer = "B"
+choices = ["Religion prevents all suicide", "Suicide is purely individual", "Social factors influence suicide rates", "Suicide cannot be studied scientifically"]
+answer = "C"
 
-# === OTHER (25 questions) ===
+# === OTHER ===
 
 [[question]]
 category = "other"
 question = "What does HTTP stand for?"
-choices = ["HyperText Transfer Program", "HyperText Transfer Protocol", "High Transfer Text Protocol", "Hyper Transfer Text Program"]
-answer = "B"
+choices = ["High Transfer Text Protocol", "Hyper Transfer Text Program", "HyperText Transfer Protocol", "HyperText Transfer Program"]
+answer = "C"
 
 [[question]]
 category = "other"
 question = "Which blood type is considered the universal donor?"
-choices = ["A", "O negative", "AB", "B"]
-answer = "B"
+choices = ["O negative", "B", "AB", "A"]
+answer = "A"
 
 [[question]]
 category = "other"
 question = "What is the recommended daily water intake for an average adult?"
-choices = ["1-2 cups", "About 8 cups (2 liters)", "5 liters", "500 ml"]
-answer = "B"
+choices = ["About 8 cups (2 liters)", "5 liters", "500 ml", "1-2 cups"]
+answer = "A"
 
 [[question]]
 category = "other"
 question = "The Olympic Games are held every how many years?"
-choices = ["2", "4", "3", "5"]
-answer = "B"
+choices = ["2", "3", "4", "5"]
+answer = "C"
 
 [[question]]
 category = "other"
 question = "What is the most widely spoken language in the world by total speakers?"
-choices = ["Spanish", "English", "Mandarin Chinese", "Hindi"]
-answer = "B"
+choices = ["Mandarin Chinese", "Spanish", "Hindi", "English"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "Which vitamin is primarily obtained from sunlight?"
-choices = ["Vitamin A", "Vitamin D", "Vitamin C", "Vitamin K"]
-answer = "B"
+choices = ["Vitamin C", "Vitamin A", "Vitamin K", "Vitamin D"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "What is the largest organ in the human body?"
-choices = ["Liver", "Skin", "Brain", "Lungs"]
-answer = "B"
+choices = ["Liver", "Brain", "Skin", "Lungs"]
+answer = "C"
 
 [[question]]
 category = "other"
 question = "JPEG is a standard for:"
-choices = ["Audio compression", "Image compression", "Video compression", "Text compression"]
-answer = "B"
+choices = ["Audio compression", "Text compression", "Image compression", "Video compression"]
+answer = "C"
 
 [[question]]
 category = "other"
 question = "Which continent has the most countries?"
-choices = ["Asia", "Africa", "Europe", "South America"]
-answer = "B"
+choices = ["Europe", "South America", "Asia", "Africa"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "What is the main purpose of a firewall in computing?"
-choices = ["Speed up internet", "Network security and traffic filtering", "Store data", "Compress files"]
-answer = "B"
+choices = ["Compress files", "Store data", "Speed up internet", "Network security and traffic filtering"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "Normal human body temperature is approximately:"
-choices = ["35°C", "37°C", "39°C", "40°C"]
-answer = "B"
+choices = ["37°C", "40°C", "35°C", "39°C"]
+answer = "A"
 
 [[question]]
 category = "other"
 question = "Which country has the largest population?"
-choices = ["United States", "India", "Indonesia", "Brazil"]
-answer = "B"
+choices = ["India", "United States", "Indonesia", "Brazil"]
+answer = "A"
 
 [[question]]
 category = "other"
 question = "What does USB stand for?"
-choices = ["United System Bus", "Universal Serial Bus", "Unified Serial Bridge", "Universal System Bridge"]
-answer = "B"
+choices = ["Universal Serial Bus", "Universal System Bridge", "Unified Serial Bridge", "United System Bus"]
+answer = "A"
 
 [[question]]
 category = "other"
 question = "The Great Barrier Reef is located off the coast of:"
-choices = ["Brazil", "Australia", "Indonesia", "South Africa"]
-answer = "B"
+choices = ["South Africa", "Indonesia", "Brazil", "Australia"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "What is the most common blood type?"
-choices = ["A positive", "O positive", "B positive", "AB positive"]
-answer = "B"
+choices = ["B positive", "A positive", "AB positive", "O positive"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "Which ocean is the largest?"
-choices = ["Atlantic", "Pacific", "Indian", "Arctic"]
-answer = "B"
+choices = ["Arctic", "Atlantic", "Indian", "Pacific"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "What does RAM stand for in computing?"
-choices = ["Read Access Memory", "Random Access Memory", "Rapid Access Module", "Read and Modify"]
-answer = "B"
+choices = ["Read and Modify", "Rapid Access Module", "Random Access Memory", "Read Access Memory"]
+answer = "C"
 
 [[question]]
 category = "other"
 question = "The human skeleton has approximately how many bones?"
-choices = ["150", "206", "250", "300"]
+choices = ["300", "206", "150", "250"]
 answer = "B"
 
 [[question]]
 category = "other"
 question = "What is the chemical symbol for gold?"
-choices = ["Gd", "Au", "Ag", "Go"]
-answer = "B"
+choices = ["Gd", "Ag", "Go", "Au"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "Which country is both a continent and a country?"
-choices = ["New Zealand", "Australia", "Greenland", "Madagascar"]
-answer = "B"
+choices = ["New Zealand", "Madagascar", "Greenland", "Australia"]
+answer = "D"
 
 [[question]]
 category = "other"
 question = "What is the tallest mountain in the world?"
-choices = ["K2", "Mount Everest", "Kangchenjunga", "Mount Kilimanjaro"]
-answer = "B"
+choices = ["Kangchenjunga", "K2", "Mount Everest", "Mount Kilimanjaro"]
+answer = "C"
 
 [[question]]
 category = "other"
 question = "TCP/IP is a:"
-choices = ["Programming language", "Network protocol suite", "Database system", "Operating system"]
-answer = "B"
+choices = ["Database system", "Operating system", "Network protocol suite", "Programming language"]
+answer = "C"
 
 [[question]]
 category = "other"
 question = "How many teeth does a typical adult human have?"
-choices = ["28", "32", "36", "24"]
-answer = "B"
+choices = ["32", "24", "36", "28"]
+answer = "A"
 
 [[question]]
 category = "other"
 question = "What is the longest river in the world?"
-choices = ["Amazon", "Nile", "Mississippi", "Yangtze"]
+choices = ["Yangtze", "Nile", "Amazon", "Mississippi"]
 answer = "B"
 
 [[question]]
 category = "other"
 question = "Which programming paradigm treats computation as the evaluation of mathematical functions?"
-choices = ["Object-oriented", "Functional", "Procedural", "Logic"]
+choices = ["Procedural", "Functional", "Logic", "Object-oriented"]
 answer = "B"

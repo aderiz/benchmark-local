@@ -97,7 +97,7 @@ def _run_cli(config: BenchmarkConfig) -> None:
         elif event.stage == "done":
             print(f"\n{event.message}")
 
-    print(f"benchmark-local — {len(config.model_families)} model families")
+    print(f"MacOS-MLX-Benchmark — {len(config.model_families)} model families")
     print(f"  warmup={config.warmup_runs} measured={config.measured_runs} "
           f"max_tokens={config.max_tokens} temp={config.temperature}")
     print()

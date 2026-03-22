@@ -198,11 +198,11 @@ _HELP = {
 
 
 def _th(label: str, cls: str = "") -> str:
-    """Render a <th> with a tooltip from _HELP."""
+    """Render a <th> with a CSS tooltip from _HELP."""
     tip = _HELP.get(label, "")
     cls_attr = f' class="{cls}"' if cls else ""
-    title_attr = f' title="{html.escape(tip)}"' if tip else ""
-    return f"<th{cls_attr}{title_attr}>{html.escape(label)}</th>"
+    tip_attr = f' data-tip="{html.escape(tip)}"' if tip else ""
+    return f"<th{cls_attr}{tip_attr}>{html.escape(label)}</th>"
 
 
 def _short_name(key: str, variant_info: dict[str, dict]) -> str:
@@ -233,11 +233,10 @@ def _summary_table(
         p = pwr.get(key, {})
         watts = p.get("avg_watts")
 
-        # CV% flags
-        tps_cv = _v(metrics.get("tokens_per_sec", {}), "cv_percent", 0)
-        ttft_cv = _v(metrics.get("ttft_ms", {}), "cv_percent", 0)
-        tps_flag = ' <span class="warn" title="CV% > 10%">⚠</span>' if tps_cv and tps_cv > 10 else ""
-        ttft_flag = ' <span class="warn" title="CV% > 10%">⚠</span>' if ttft_cv and ttft_cv > 10 else ""
+        # No CV% flags in summary — variance across prompt types is expected.
+        # Per-prompt breakdown table shows CV% flags for like-for-like comparison.
+        tps_flag = ""
+        ttft_flag = ""
 
         rows.append(
             f"<tr>"
@@ -529,7 +528,7 @@ _HEADER = """\
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>benchmark-local — MLX Inference Report</title>
+<title>MacOS-MLX-Benchmark — MLX Inference Report</title>
 <style>
 :root {
   --bg: #0d1117;
@@ -606,6 +605,7 @@ section { margin-bottom: 1.5rem; }
   border-collapse: collapse;
   font-size: 0.875rem;
   margin-bottom: 1rem;
+  overflow: visible;
 }
 .data-table th, .data-table td {
   padding: 0.5rem 0.75rem;
@@ -619,9 +619,8 @@ section { margin-bottom: 1.5rem; }
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  position: sticky;
-  top: 0;
 }
+.data-table thead { position: relative; z-index: 10; }
 .data-table th.num, .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .data-table tbody tr:hover { background: var(--surface2); }
 .data-table tr.ref-row { background: var(--surface); }
@@ -695,8 +694,27 @@ details summary {
 details summary:hover { color: var(--text); }
 
 /* Tooltips on headers */
-th[title] { cursor: help; text-decoration: underline dotted var(--text2); text-underline-offset: 3px; }
-th[title]:hover { color: var(--text); }
+th[data-tip] {
+  cursor: help;
+  text-decoration: underline dotted var(--text2);
+  text-underline-offset: 3px;
+}
+th[data-tip]:hover { color: var(--text); }
+#tooltip {
+  position: fixed;
+  background: #000000ee;
+  color: #f0f0f0;
+  font-size: 0.75rem;
+  font-weight: 400;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  max-width: 280px;
+  line-height: 1.4;
+  z-index: 9999;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  display: none;
+}
 
 /* Sortable table header */
 .sortable th { cursor: pointer; user-select: none; }
@@ -711,11 +729,25 @@ th[title]:hover { color: var(--text); }
 </style>
 </head>
 <body>
-<h1>benchmark-local <small>MLX Inference Report</small></h1>
+<h1>MacOS-MLX-Benchmark <small>MLX Inference Report</small></h1>
+<div id="tooltip"></div>
 """
 
 _FOOTER = """\
 <script>
+// Tooltips on th[data-tip]
+const tip = document.getElementById('tooltip');
+document.querySelectorAll('th[data-tip]').forEach(th => {
+  th.addEventListener('mouseenter', e => {
+    tip.textContent = th.dataset.tip;
+    tip.style.display = 'block';
+    const r = th.getBoundingClientRect();
+    tip.style.left = Math.min(r.left, window.innerWidth - 300) + 'px';
+    tip.style.top = (r.bottom + 6) + 'px';
+  });
+  th.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
+});
+
 // Minimal sortable table
 document.querySelectorAll('.sortable th').forEach(th => {
   th.addEventListener('click', () => {

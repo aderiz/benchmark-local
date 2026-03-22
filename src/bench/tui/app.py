@@ -15,7 +15,7 @@ from bench.tui.screens.run_screen import RunScreen
 class BenchApp(App):
     """MLX Inference Benchmark TUI."""
 
-    TITLE = "benchmark-local"
+    TITLE = "MacOS-MLX-Benchmark"
     SUB_TITLE = "MLX Inference Benchmarking for Apple Silicon"
 
     CSS = """
